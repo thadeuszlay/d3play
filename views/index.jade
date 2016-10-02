@@ -39,8 +39,8 @@ block content
             .attr("text-anchor", "middle")
             .attr("dy", ".35em");
 
-        //d3.json("https://api.github.com/repos/mbostock/d3/git/blobs/2e0e3b6305fa10c1a89d1dfd6478b1fe7bc19c1e?" + Math.random())
-        d3.json("./myData4.json")
+        d3.json("https://api.github.com/repos/mbostock/d3/git/blobs/2e0e3b6305fa10c1a89d1dfd6478b1fe7bc19c1e?" + Math.random())
+        //d3.json("./myData4.json")
           .on("progress", function() { 
             console.log("--> ", event.loaded);
             console.log("total ", total);
