@@ -1,0 +1,48 @@
+extends layout
+
+block content
+  script(src='javascripts/jquery-3.1.1.min.js')
+  script(src='javascripts/d3.min.js')
+  script.
+    $(document).ready(function() {
+      d3.json("./myData.json", function(error, loadedFile) {
+        console.log("d ", loadedFile);
+        var dataArray = loadedFile.content;
+        
+        var barWidth = 10;
+        //domain: Wertebereich deiner Werte von min bis max.
+        //range: projizierter Bereich 
+        var widthScale = d3.scaleLinear()
+          .domain([0, 60])
+          .range([0, 210]);
+        var colorScale = d3.scaleLinear()
+          .domain([0, 60])
+          .range(["red", "blue"]);
+
+        var axis = d3.axisBottom()
+          .ticks(5)
+          .scale(widthScale);
+
+        var canvas = d3.select("body")
+          .append("svg")
+          .attr("width", 500)
+          .attr("height", 500)
+          .append("g")
+          .attr("transform", "translate(50, 50)");
+
+        var bars = canvas.selectAll("rect")
+          .data(dataArray)
+          .enter()
+            .append("rect")
+            .attr("width", function(d) { return widthScale(d);})
+            .attr("height", 50)
+            .attr("fill", function(d) {return colorScale(d);})
+            .attr("y", function(d, i) {return i * 50;})
+            .attr("stroke", function(d) {return colorScale(d);});
+
+        canvas.append("g")
+          .attr("transform", "translate(0, 400)")
+          .call(axis);
+
+      })
+    });
